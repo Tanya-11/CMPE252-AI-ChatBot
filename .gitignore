@@ -117,6 +117,8 @@ terms/
 results/
 data/nlg_nlu.yml
 rasa-x-details
-
+.rasa/
 # scripts
 read_db.py
+
+

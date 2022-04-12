@@ -5,18 +5,38 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
+  - product_stock
+  - order_shoes
   - bot_challenge
+  - order_cancel
+  - order_return
+
+entities:
+  - color
+  - size
+  - email
+  # - address
+
+slot:
+  color:
+    type: text
+    influence_conversation: false
+    mappings:
+    - entity: color
+      type: from_entity
+      conditions:
+      - active_loop: product_stock_form
+  size: 
+    type: text
+    influence_conversation: false
+    mappings:
+    - entity: size
+      type: from_entity
+      conditions:
+      - active_loop: product_stock_form
+
 
 responses:
-  utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
   utter_did_that_help:
   - text: "Did that help you?"
 
@@ -28,6 +48,54 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+  utter_order_shoes:
+  - text: "Sorry, I can't actually help you order the shoes. Please visit our site to buy some nice shoes! I can help you check inventory, see the status of an order or even make a change to that order."
+
+  utter_start_over:
+  - text: "OK, Let's start over!"
+  utter_product_stock_start:
+  - text: I can help you find some shoes!
+  utter_ask_product_stock_form_size:
+  - text: What size shoe would you like?
+  utter_ask_product_stock_form_color:
+  - text: What color are you looking for?
+  utter_greet:
+  - buttons:
+    # - payload: Check status of my order
+    #   title: Check status of my order
+    - payload: Start a return
+      title: Start a return
+    - payload: Check inventory
+      title: Check inventory
+    # - payload: Subscribe to product updates
+    #   title: Subscribe to product updates
+    text: Hi there! I'm a demo bot from Rasa to help you with ordering shoes. How can I help you?
+  utter_default:
+  - text: I don't think I understand. Can you try providing more detail?
+  - text: um, what did you just say to me?
+  - text: beep, boop, don't understand
+
+# actions:
+# - action_product_search
+# - action_product_search
+# - action_survey_submit
+# - action_order_status
+# - action_cancel_order
+# - action_return
+# - action_give_name
+
+forms:
+  product_stock_form:
+    required_slots:
+        - color
+        - size
+  order_cancel_form:
+    required_slots:
+        - email
+  order_return_form:
+    required_slots:
+        - email
 
 session_config:
   session_expiration_time: 60

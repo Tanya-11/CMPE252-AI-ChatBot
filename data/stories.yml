@@ -21,40 +21,64 @@ stories:
   - action: action_deactivate_loop
   - active_loop: null
 
-- story: User interrupts the order return form 
-  steps:
-  - active_loop: order_return_form
-  - intent: deny
-  - action: utter_start_over
-  - action: utter_greet
-  - action: action_deactivate_loop
-  - active_loop: null
-
-- story: User interrupts the order cancel form 
-  steps:
-  - active_loop: order_cancel_form
-  - intent: deny
-  - action: utter_start_over
-  - action: utter_greet
-  - action: action_deactivate_loop
-  - active_loop: null
-
-# - story: sad path 1
+# - story: User interrupts the order return form 
 #   steps:
-#   - intent: greet
-#   - action: utter_greet
-#   - intent: mood_unhappy
-#   - action: utter_cheer_up
-#   - action: utter_did_that_help
-#   - intent: affirm
-#   - action: utter_happy
-
-# - story: sad path 2
-#   steps:
-#   - intent: greet
-#   - action: utter_greet
-#   - intent: mood_unhappy
-#   - action: utter_cheer_up
-#   - action: utter_did_that_help
+#   - active_loop: order_return_form
 #   - intent: deny
-#   - action: utter_goodbye
+#   - action: utter_start_over
+#   - action: utter_greet
+#   - action: action_deactivate_loop
+#   - active_loop: null
+
+# - story: User interrupts the order cancel form 
+#   steps:
+#   - active_loop: order_cancel_form
+#   - intent: deny
+#   - action: utter_start_over
+#   - action: utter_greet
+#   - action: action_deactivate_loop
+#   - active_loop: null
+
+- story: interactive story 1
+  steps:
+  - intent: product_stock
+  - action: utter_product_stock_start
+  - action: product_stock_form
+  - active_loop: product_stock_form
+  - slot_was_set:
+    - requested_slot: color
+  - slot_was_set:
+    - color: magenta
+  - slot_was_set:
+    - requested_slot: size
+  - slot_was_set:
+    - size: 8
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_product_search
+
+- story: interactive story 2
+  steps:
+  - intent: product_stock
+  - action: utter_product_stock_start
+  - action: product_stock_form
+  - active_loop: product_stock_form
+  - slot_was_set:
+    - requested_slot: size
+  - slot_was_set:
+    - size: 8
+  - slot_was_set:
+    - requested_slot: color
+  - slot_was_set:
+    - color: blue
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_product_search
+
+# - story: interactive_story_1
+#   steps:
+#   - intent: check_name
+#     entities:
+#     - name: yeghe

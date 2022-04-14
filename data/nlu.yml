@@ -1,6 +1,6 @@
 version: "3.1"
-
 nlu:
+
 - intent: greet
   examples: |
     - hey
@@ -59,20 +59,18 @@ nlu:
 - intent: product_stock
   examples: |
     - do you have any [black](color) shoes in stock?
-    - what about [white](color) shoes
+    - what about [white](color) [9](size) shoes
     - what's your inventory
-    - are you out of size 9 shoes
+    - are you out of (9)[size] shoes
     - check inventory
     - do you have my special shoes in stock
     - Check inventory
     - i'm looking for new shoes
-    
 - intent: order_shoes
   examples: |
     - i want to buy shoes
     - no, don't want to do a return, want to purchase new shoes
     - since they're in stock, how about I place an order
-
 - intent: order_cancel
   examples: |
     - i'd like to cancel my order
@@ -90,3 +88,46 @@ nlu:
     - Start a return
     - Okay. I would like to return some shoes I bought
     - yeah I want to return something
+- intent: order_return
+  examples: |
+    - start a return
+    - I don't want my shoes anymore
+    - how do I return these?
+    - return some shoes
+    - Which items are available to return?
+    - Start a return
+    - Okay. I would like to return some shoes I bought
+    - yeah I want to return something
+- intent: give_shoes_size
+  examples: |
+    - i want a [3](size) shoes
+    - [5](size) size
+    - give me a [6](size) shoes
+    - [4](size)
+    - [7](size)
+    - [6](size)
+    - i'd prefer [12](size) shoes
+    - gimme gimme gimme [11.0](size) shoes
+    - give shoes size
+    - i want a [9](size) shoes please
+    - i want to give you my shoes
+    - [8](size)
+    - [9.2] size
+
+- intent: give_shoes_color
+  examples: |
+    - i want a [blue](color) shoes
+    - [black](color) color
+    - give me a [indigo](color) shoes
+    - give me a [indigo red](color) shoes
+    - [pink](color)
+    - [pink blue](color)
+    - [red](color)
+    - [orange](color)
+    - i'd prefer [salmon](color) shoes
+    - gimme gimme gimme [white](color) shoes
+    - give shoes color
+    - i want a [black](color) shoes please
+    - i want to give you my shoes color
+    - [green](color)
+    - [magenta] color

@@ -1,7 +1,5 @@
 version: "3.1"
-
 rules:
-
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
@@ -15,57 +13,60 @@ rules:
 - rule: Activate product_stock form
   steps:
   - intent: product_stock
-  - action: action_deactivate_loop
-  - active_loop: null
   - action: utter_product_stock_start
   - action: product_stock_form
   - active_loop: product_stock_form
 
-- rule: Activate order_cancel form
-  steps:
-  - intent: order_cancel
-  - action: action_deactivate_loop
-  - active_loop: null
-  # - action: utter_product_stock_start
-  - action: order_cancel_form
-  - active_loop: order_cancel_form
-
-- rule: Activate order_return form
-  steps:
-  - intent: order_return
-  - action: action_deactivate_loop
-  - active_loop: null
-  # - action: utter_product_stock_start              TODO
-  - action: order_return_form
-  - active_loop: order_return_form
-
+  
 - rule: Submit product stock form
   condition:
   - active_loop: product_stock_form
-  - slot_was_set:
-    - requested_slot: null
   steps:
   - action: product_stock_form
   - active_loop: null
-  # - action: action_cancel_order
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_product_search
 
-- rule: Submit cancel form
-  condition:
-  - active_loop: order_cancel_form
-  - requested_slot: null
-  steps:
-  - action: order_cancel_form
-  - active_loop: null
-  # - action: action_cancel_order
+  # - action: action_product_search
 
-- rule: Submit return form
-  condition:
-  - active_loop: order_return_form
-  - requested_slot: null
-  steps:
-  - action: order_return_form
-  - active_loop: null
-  # - action: action_cancel_order
+# - rule: Activate order_cancel form
+#   steps:
+#   - intent: order_cancel
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   # - action: utter_product_stock_start
+#   - action: order_cancel_form
+#   - active_loop: order_cancel_form
+
+# - rule: Activate order_return form
+#   steps:
+#   - intent: order_return
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   # - action: utter_product_stock_start              TODO
+#   - action: order_return_form
+#   - active_loop: order_return_form
+
+  
+
+# - rule: Submit cancel form
+#   condition:
+#   - active_loop: order_cancel_form
+#   # - requested_slot: null
+#   steps:
+#   - action: order_cancel_form
+#   - active_loop: null
+#   # - action: action_cancel_order
+
+# - rule: Submit return form
+#   condition:
+#   - active_loop: order_return_form
+#   # - requested_slot: null
+#   steps:
+#   - action: order_return_form
+#   - active_loop: null
+#   # - action: action_cancel_order
 
 
 # rules:

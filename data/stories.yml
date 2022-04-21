@@ -21,24 +21,6 @@ stories:
   - action: action_deactivate_loop
   - active_loop: null
 
-# - story: User interrupts the order return form 
-#   steps:
-#   - active_loop: order_return_form
-#   - intent: deny
-#   - action: utter_start_over
-#   - action: utter_greet
-#   - action: action_deactivate_loop
-#   - active_loop: null
-
-# - story: User interrupts the order cancel form 
-#   steps:
-#   - active_loop: order_cancel_form
-#   - intent: deny
-#   - action: utter_start_over
-#   - action: utter_greet
-#   - action: action_deactivate_loop
-#   - active_loop: null
-
 - story: interactive story 1
   steps:
   - intent: product_stock
@@ -77,8 +59,52 @@ stories:
   - active_loop: null
   - action: action_product_search
 
-# - story: interactive_story_1
-#   steps:
-#   - intent: check_name
-#     entities:
-#     - name: yeghe
+- story: interactive story happy path 3
+  steps:
+  - intent: order_return
+  - action: order_return_form
+  - active_loop: order_return_form
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - color: abcdeg.77@gmail.com
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_return
+
+- story: interactive story happy path 4
+  steps:
+  - intent: order_status
+  - action: order_status_form
+  - active_loop: order_status_form
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - color: abcdeg.77@gmail.com
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_order_status
+
+- story: interactive check weather story 1
+  steps:  
+  - intent: check_weather
+  - intent: give_city
+  - slot_was_set:
+    - requested_slot: city
+  - slot_was_set:
+    - color: Malaysia
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_tell_weather
+  - active_loop: null
+
+- story: interactive check weather story 2
+  steps:  
+  - intent: check_weather
+  - intent: give_city
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_tell_weather
+  - active_loop: null

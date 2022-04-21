@@ -28,47 +28,72 @@ rules:
     - requested_slot: null
   - action: action_product_search
 
-  # - action: action_product_search
+- rule: Activate order_cancel form
+  steps:
+  - intent: order_cancel
+  - action: order_cancel_form
+  - active_loop: order_cancel_form
 
-# - rule: Activate order_cancel form
-#   steps:
-#   - intent: order_cancel
-#   - action: action_deactivate_loop
-#   - active_loop: null
-#   # - action: utter_product_stock_start
-#   - action: order_cancel_form
-#   - active_loop: order_cancel_form
+- rule: Activate order_return form
+  steps:
+  - intent: order_status    
+  - action: order_status_form
+  - active_loop: order_status_form
 
-# - rule: Activate order_return form
-#   steps:
-#   - intent: order_return
-#   - action: action_deactivate_loop
-#   - active_loop: null
-#   # - action: utter_product_stock_start              TODO
-#   - action: order_return_form
-#   - active_loop: order_return_form
+- rule: Activate order_status form
+  steps:
+  - intent: order_return    
+  - action: order_return_form
+  - active_loop: order_return_form
 
-  
+- rule: Submit order_status form
+  condition:
+  - active_loop: order_status_form
+  steps:
+  - action: order_status_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_order_status
 
-# - rule: Submit cancel form
-#   condition:
-#   - active_loop: order_cancel_form
-#   # - requested_slot: null
-#   steps:
-#   - action: order_cancel_form
-#   - active_loop: null
-#   # - action: action_cancel_order
-
-# - rule: Submit return form
-#   condition:
-#   - active_loop: order_return_form
-#   # - requested_slot: null
-#   steps:
-#   - action: order_return_form
-#   - active_loop: null
-#   # - action: action_cancel_order
+- rule: Submit cancel form
+  condition:
+  - active_loop: order_cancel_form
+  steps:
+  - action: order_cancel_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_cancel_order
 
 
+- rule: Submit return form
+  condition:
+  - active_loop: order_return_form
+  steps:
+  - action: order_return_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_return
+
+- rule: respond to chitchat
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+
+- rule: Implementation of the Two-Stage-Fallback
+  steps:
+  - or:
+    - intent: nlu_fallback
+    - intent: out_of_scope
+  - action: action_two_stage_fallback
+  - active_loop: action_two_stage_fallback
+
+- rule: respond to FAQs
+  steps:
+  - intent: faq
+  - action: utter_faq
 # rules:
 # - rule: Submit order form
 #   condition:

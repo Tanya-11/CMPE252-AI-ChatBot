@@ -24,10 +24,10 @@ rasa run actions
 
 Talk to the bot
 ```
-asa shell
+rasa shell
 ```
 
-In case you're interetsed to understand how it's working under the hood, use rasa shell --debug
+In case you're interetsed to understand how it's working under the hood, use `rasa shell --debug`
 
 
 # Files

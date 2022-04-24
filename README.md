@@ -32,9 +32,9 @@ In case you're interetsed to understand how it's working under the hood, use `ra
 
 # Files
   - `data\`
-    - `stories.yml` contains the stories
+    - `stories.yml` contains the stories, used for multi-turn conversation
     - `nlu.yml` contains the NLU training data
-    - `ules.yml` contains the rules, the bot responds to
+    - `rules.yml` training data used by dialogue manager which always follows the same path, used for single-turn conversation
   - `actions\`
    - `actions.py` contains custom actions
   - `domain.yml` conatins intent, actions, responses, form and entities information

@@ -1,263 +1,300 @@
 version: "3.1"
 nlu:
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
 
-- intent: greet
-  examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+  - intent: goodbye
+    examples: |
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
 
-- intent: goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
+      - sure
+      - ok
+      - why not
+      - ok great
+      - yes I did
+      - yeah, great
+      - pretty good
+      - fine
+      - You bet
+      - I sure did
+      - more or less
 
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
+      - none
+      - absolutely not
+      - no thanks
+      - didn't do any
+      - no I didn't
+      - could have been better
+      - not great
+      - nope
 
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
 
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+  - intent: product_stock
+    examples: |
+      - do you have any [black](color) shoes in stock?
+      - what about [white](color) [9](size) shoes
+      - what's your inventory
+      - are you out of (9)[size] shoes
+      - check inventory
+      - do you have my special shoes in stock
+      - Check inventory
+      - i'm looking for new shoes
 
-- intent: product_stock
-  examples: |
-    - do you have any [black](color) shoes in stock?
-    - what about [white](color) [9](size) shoes
-    - what's your inventory
-    - are you out of (9)[size] shoes
-    - check inventory
-    - do you have my special shoes in stock
-    - Check inventory
-    - i'm looking for new shoes
+  - intent: order_shoes
+    examples: |
+      - i want to buy shoes
+      - no, don't want to do a return, want to purchase new shoes
+      - since they're in stock, how about I place an order
 
-- intent: order_shoes
-  examples: |
-    - i want to buy shoes
-    - no, don't want to do a return, want to purchase new shoes
-    - since they're in stock, how about I place an order
-    
-- intent: order_cancel
-  examples: |
-    - i'd like to cancel my order
-    - cancel my shoes
-    - I changed my mind on my order
-    - cancel my order
+  - intent: order_cancel
+    examples: |
+      - i'd like to cancel my order
+      - cancel my shoes
+      - I changed my mind on my order
+      - cancel my order
 
-- intent: order_return
-  examples: |
-    - start a return
-    - I don't want my shoes anymore
-    - how do I return these?
-    - return some shoes
-    - Which items are available to return?
-    - Start a return
-    - Okay. I would like to return some shoes I bought
-    - yeah I want to return something
-- intent: order_return
-  examples: |
-    - start a return
-    - I don't want my shoes anymore
-    - how do I return these?
-    - return some shoes
-    - Which items are available to return?
-    - Start a return
-    - Okay. I would like to return some shoes I bought
-    - yeah I want to return something
-- intent: give_shoes_size
-  examples: |
-    - i want a [3](size) shoes
-    - [5](size) size
-    - give me a [6](size) shoes
-    - [4](size)
-    - [7](size)
-    - [6](size)
-    - i'd prefer [12](size) shoes
-    - gimme gimme gimme [11.0](size) shoes
-    - give shoes size
-    - i want a [9](size) shoes please
-    - i want to give you my shoes
-    - [8](size)
-    - [9.2] size
+  - intent: order_return
+    examples: |
+      - start a return
+      - I don't want my shoes anymore
+      - how do I return these?
+      - return some shoes
+      - Which items are available to return?
+      - Start a return
+      - Okay. I would like to return some shoes I bought
+      - yeah I want to return something
+  - intent: order_return
+    examples: |
+      - start a return
+      - I don't want my shoes anymore
+      - how do I return these?
+      - return some shoes
+      - Which items are available to return?
+      - Start a return
+      - Okay. I would like to return some shoes I bought
+      - yeah I want to return something
+  - intent: give_shoes_size
+    examples: |
+      - i want a [3](size) shoes
+      - [5](size) size
+      - give me a [6](size) shoes
+      - [4](size)
+      - [7](size)
+      - [6](size)
+      - i'd prefer [12](size) shoes
+      - gimme gimme gimme [11.0](size) shoes
+      - give shoes size
+      - i want a [9](size) shoes please
+      - i want to give you my shoes
+      - [8](size)
+      - [9.2] size
 
-- intent: give_shoes_color
-  examples: |
-    - i want a [blue](color) shoes
-    - [black](color) color
-    - give me a [indigo](color) shoes
-    - give me a [indigo red](color) shoes
-    - [pink](color)
-    - [pink blue](color)
-    - [red](color)
-    - [orange](color)
-    - i'd prefer [salmon](color) shoes
-    - gimme gimme gimme [white](color) shoes
-    - give shoes color
-    - i want a [black](color) shoes please
-    - i want to give you my shoes color
-    - [green](color)
-    - [magenta] color
+  - intent: give_shoes_color
+    examples: |
+      - i want a [blue](color) shoes
+      - [black](color) color
+      - give me a [indigo](color) shoes
+      - give me a [indigo red](color) shoes
+      - [pink](color)
+      - [pink blue](color)
+      - [red](color)
+      - [orange](color)
+      - i'd prefer [salmon](color) shoes
+      - gimme gimme gimme [white](color) shoes
+      - give shoes color
+      - i want a [black](color) shoes please
+      - i want to give you my shoes color
+      - [green](color)
+      - [magenta] color
 
-- intent: give_email
-  examples: |
-    - my email is [bob@gmail.com](email)
-    - [innodb@yahoo.com](email) email
-    - I want to give you my [innodbmysql@gmail.com](email) email address
-    - record my email as [innodbmysql@yahoo.com](email)
-    - [yammm@hotmail.com](email)
-    - [jayjahdkaj@gmail.com](email)
-    - [jayjahd.889@gmail.com](email)
-- intent: order_status
-  examples: |
-    - check status of my order
-    - when are my shoes coming in
-    - when will they get here
-    - I'd like to check the status of my order pls
-    - check status for [yammm@hotmail.com](email)
-    - order starys for 
-    - I'd like an update on my order
-    - Check status of my order
-    - I haven't received my order yet, can we check that?
-    - where is my order?
-    - I want to check the status of my order
-    - actually can I check the status of my order
-    - order status for [example@rasa.com](email)
-- intent: give_time
-  examples: |
-    - can you tell me what time it is
-    - tell me the time
-    - got the time
-    - what time is it
-- intent: check_weather
-  examples: |
-    - what's the weather like?
-    - tell me the weather
-    - weather
-    - can you tell me the weather in [New York](city)?
-    - hows the weather today?
-    - hows the weather today at [Michigan](city)?
-- intent: give_city
-  examples: |
-    - city is [San Jose](city)
-    - [Santa Clara](city)
-    - [Texas](city)
-    - [Delhi](city)
-    - In my city [Delhi](city)
-- intent: chitchat/thanks
-  examples: |
-    - thx
-    - Awesome, thanks!
-    - thanks mate
-    - thank you
-- intent: chitchat/confirm_presence
-  examples: |
-    - are you there?
-- intent: chitchat/capabilities
-  examples: |
-    - What else can you do?
-    - what can you do?
-- intent: chitchat/mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-    - cool beans
-- intent: chitchat/mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-    - this is not working
-    - you suck
-- intent: chitchat/bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
-- intent: chitchat/goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+  - intent: give_email
+    examples: |
+      - my email is [bob@gmail.com](email)
+      - [innodb@yahoo.com](email) email
+      - I want to give you my [innodbmysql@gmail.com](email) email address
+      - record my email as [innodbmysql@yahoo.com](email)
+      - [yammm@hotmail.com](email)
+      - [jayjahdkaj@gmail.com](email)
+      - [jayjahd.889@gmail.com](email)
+  - intent: order_status
+    examples: |
+      - check status of my order
+      - when are my shoes coming in
+      - when will they get here
+      - I'd like to check the status of my order pls
+      - check status for [yammm@hotmail.com](email)
+      - order starys for 
+      - I'd like an update on my order
+      - Check status of my order
+      - I haven't received my order yet, can we check that?
+      - where is my order?
+      - I want to check the status of my order
+      - actually can I check the status of my order
+      - order status for [example@rasa.com](email)
+  - intent: give_time
+    examples: |
+      - can you tell me what time it is
+      - tell me the time
+      - got the time
+      - what time is it
+  - intent: check_weather
+    examples: |
+      - what's the weather like?
+      - tell me the weather
+      - weather
+      - can you tell me the weather?
+      - hows the weather today?
+      - check weather for me
+  - intent: check_weather_with_city
+    examples: |
+      - what's the weather like in  [York](city)?
+      - tell me the weather in [New York](city)
+      - weather  [New York](city)
+      - can you tell me the weather in [New York](city)?
+      - hows the weather today in [New York](city)?
+      - hows the weather today at [Michigan](city)?
+  - intent: give_city
+    examples: |
+      - city is [San Jose](city)
+      - [Santa Clara](city)
+      - [Texas](city)
+      - [Delhi](city)
+      - In my city [Delhi](city)
+  - intent: chitchat/thanks
+    examples: |
+      - thx
+      - Awesome, thanks!
+      - thanks mate
+      - thank you
+  - intent: chitchat/confirm_presence
+    examples: |
+      - are you there?
+  - intent: chitchat/capabilities
+    examples: |
+      - What else can you do?
+      - what can you do?
+  - intent: chitchat/mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
+      - cool beans
+  - intent: chitchat/mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
+      - this is not working
+      - you suck
+  - intent: chitchat/goodbye
+    examples: |
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
+
+  - intent: faq/alternate_info
+    examples: |
+      - Can I provide a phone number instead?
+      - Can anyone look up my status with my e-mail address?
+  - intent: faq/sizing_clarification
+    examples: |
+      - American or european sizing?
+  - intent: faq/payment_methods
+    examples: |
+      - what kind of payment methods do you offer?
+      - how do I pay
+  - intent: faq/promotions
+    examples: |
+      - what kind of deals do you have
+      - are you running anything for black friday
+      
+  - intent: out_of_scope
+    examples: |
+      - I want to order food
+      - What is 2 + 2?
+      - Who's the US President?
   
-- intent: faq/alternate_info
-  examples: |
-    - Can I provide a phone number instead?
-    - Can anyone look up my status with my e-mail address?
-- intent: faq/sizing_clarification
-  examples: |
-    - American or european sizing?
-- intent: faq/payment_methods
-  examples: |
-    - what kind of payment methods do you offer?
-    - how do I pay
-- intent: faq/promotions
-  examples: |
-    - what kind of deals do you have
-    - are you running anything for black friday
+  - intent: stop
+    examples: |
+      - I've changed my mind
+      - I want to do something else
+      - I want to discontinue
+      - I'm not interested
+      - Let's not check that
+      - Let's not do it
+      - I don't think, I want to go forward with this
+

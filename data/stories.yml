@@ -21,7 +21,8 @@ stories:
   - action: action_deactivate_loop
   - active_loop: null
 
-- story: interactive story 1
+# product stock
+- story: product stock story happy path
   steps:
   - intent: product_stock
   - action: utter_product_stock_start
@@ -30,40 +31,47 @@ stories:
   - slot_was_set:
     - requested_slot: color
   - slot_was_set:
-    - color: magenta
-  - slot_was_set:
     - requested_slot: size
-  - slot_was_set:
-    - size: 8
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: action_product_search
 
-- story: interactive story 2
+- story: product stock story sad path 1
   steps:
   - intent: product_stock
   - action: utter_product_stock_start
   - action: product_stock_form
   - active_loop: product_stock_form
-  - slot_was_set:
-    - requested_slot: size
-  - slot_was_set:
-    - size: 8
-  - slot_was_set:
-    - requested_slot: color
-  - slot_was_set:
-    - color: blue
-  - slot_was_set:
-    - requested_slot: null
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
   - active_loop: null
-  - action: action_product_search
 
-- story: interactive story happy path 3
+
+- story: product stock story sad path 2
+  steps:
+  - intent: product_stock
+  - action: utter_product_stock_start
+  - action: product_stock_form
+  - active_loop: product_stock_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: product_stock_form
+  - active_loop: product_stock_form
+
+# product return
+- story: interactive story order_return story path 1
   steps:
   - intent: order_return
   - action: order_return_form
   - active_loop: order_return_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: order_return_form
   - slot_was_set:
     - requested_slot: email
   - slot_was_set:
@@ -72,6 +80,32 @@ stories:
     - requested_slot: null
   - active_loop: null
   - action: action_return
+
+- story: interactive story order_return story sad path 1
+  steps:
+  - intent: order_return
+  - action: order_return_form
+  - active_loop: order_return_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: interactive story order_return story happy path
+  steps:
+  - intent: order_return
+  - action: order_return_form
+  - active_loop: order_return_form
+  - intent: give_email
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_return
+
+# order status
 
 - story: interactive story happy path 4
   steps:
@@ -87,23 +121,27 @@ stories:
   - active_loop: null
   - action: action_order_status
 
-- story: interactive check weather story 1
+
+# check weather
+- story: check weather story 1
   steps:  
-  - intent: check_weather
-  - intent: give_city
+  - intent: check_weather_with_city
   - slot_was_set:
     - requested_slot: city
-  - slot_was_set:
-    - color: Malaysia
   - slot_was_set:
     - requested_slot: null
   - action: action_tell_weather
   - active_loop: null
 
-- story: interactive check weather story 2
+- story: check weather story 2
   steps:  
   - intent: check_weather
+  - action: utter_city
   - intent: give_city
+  - slot_was_set:
+    - requested_slot: city
+  - slot_was_set:
+    - city: Malaysia
   - slot_was_set:
     - requested_slot: null
   - action: action_tell_weather

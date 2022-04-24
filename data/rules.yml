@@ -8,16 +8,26 @@ rules:
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
+  - action: action_bot_challenge
   - action: utter_iamabot
 
-- rule: Activate product_stock form
+# product_stock form
+- rule: Activate product_stock form happy path
   steps:
   - intent: product_stock
   - action: utter_product_stock_start
   - action: product_stock_form
   - active_loop: product_stock_form
 
-  
+- rule: Activate product_stock form unhappy path
+  condition:  
+  - active_loop: product_stock_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: product_stock_form
+  - active_loop: product_stock_form
+ 
 - rule: Submit product stock form
   condition:
   - active_loop: product_stock_form
@@ -27,6 +37,8 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_product_search
+  
+# order_cancel
 
 - rule: Activate order_cancel form
   steps:
@@ -34,27 +46,14 @@ rules:
   - action: order_cancel_form
   - active_loop: order_cancel_form
 
-- rule: Activate order_return form
+- rule: Activate order_cancel form unhappy path
+  condition:  
+  - active_loop: order_cancel_form
   steps:
-  - intent: order_status    
-  - action: order_status_form
-  - active_loop: order_status_form
-
-- rule: Activate order_status form
-  steps:
-  - intent: order_return    
-  - action: order_return_form
-  - active_loop: order_return_form
-
-- rule: Submit order_status form
-  condition:
-  - active_loop: order_status_form
-  steps:
-  - action: order_status_form
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_order_status
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: order_cancel_form
+  - active_loop: order_cancel_form
 
 - rule: Submit cancel form
   condition:
@@ -66,6 +65,22 @@ rules:
     - requested_slot: null
   - action: action_cancel_order
 
+  # order_return form
+
+- rule: Activate order_return form happy path
+  steps:
+  - intent: order_return    
+  - action: order_return_form
+  - active_loop: order_return_form
+
+- rule: Activate order_return form unhappy path
+  condition:  
+  - active_loop: order_return_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: order_return_form
+  - active_loop: order_return_form
 
 - rule: Submit return form
   condition:
@@ -77,35 +92,65 @@ rules:
     - requested_slot: null
   - action: action_return
 
-- rule: respond to chitchat
+# order_status form
+
+- rule: Activate order_status form
+  steps:
+  - intent: order_status    
+  - action: order_status_form
+  - active_loop: order_status_form
+
+- rule: Activate order_status form unhappy path
+  condition:  
+  - active_loop: order_status_form
   steps:
   - intent: chitchat
   - action: utter_chitchat
+  - action: order_status_form
+  - active_loop: order_status_form
+
+- rule: Submit order_status form
+  condition:
+  - active_loop: order_status_form
+  steps:
+  - action: order_status_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_order_status
+
+# fallback
 
 - rule: Implementation of the Two-Stage-Fallback
   steps:
-  - or:
-    - intent: nlu_fallback
-    - intent: out_of_scope
+  - intent: nlu_fallback
   - action: action_two_stage_fallback
   - active_loop: action_two_stage_fallback
 
+# out of scope
+
+- rule: out-of-scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+# weather with city
+
+- rule: weather with city
+  steps:
+  - intent: check_weather_with_city
+  - action: action_tell_weather
+
+#  retrieval intents
+# faqs
 - rule: respond to FAQs
   steps:
   - intent: faq
   - action: utter_faq
-# rules:
-# - rule: Submit order form
-#   condition:
-#   # Condition that form is active.
-#   - active_loop: order_item_form
-#   steps:
-#   # Form is deactivated
-#   - action: order_item_form
-#   - active_loop: null
-#   - slot_was_set:
-#     - requested_slot: null
-  # The actions we want to run when the form is submitted.
-  # - action: utter_submit
-  # - action: utter_slots_values
+
+#chitchat
+- rule: respond to chitchat
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
 

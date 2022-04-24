@@ -15,7 +15,7 @@ from rasa_sdk.events import SlotSet , UserUtteranceReverted
 from rasa_sdk.events import FollowupAction
 from rasa_sdk.events import BotUttered
 from rasa_sdk.types import DomainDict
-from weather import Weather
+from weather import Weather,Version
 import sqlite3
 
 path_to_db = "actions/bot.db"
@@ -39,10 +39,13 @@ class ActionProductSearch(Action):
         shoe = [(tracker.get_slot("color")), (tracker.get_slot("size"))]
 
         # place cursor on correct row based on search criteria
+        print(shoe[0])
+        print(shoe[1])
         cursor.execute("SELECT * FROM inventory WHERE color=? AND size=?", shoe)
         
         # retrieve sqlite row
         data_row = cursor.fetchone()
+        print(data_row)
 
         if data_row:
             # provide in stock message
@@ -200,6 +203,19 @@ class CheckWeather(Action):
 
         dispatcher.utter_message(text=f"Today's temperature is {temp} degree Celcius.")
         return [SlotSet("city", None)]
+
+
+class CheckRasaVersion(Action):
+
+    def name(self) -> Text:
+        return "action_bot_challenge"
+
+    def run(self, dispatcher: CollectingDispatcher,
+    tracker: Tracker,
+    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        temp=Version()
+        dispatcher.utter_message(text=f"{temp}")
+        return [SlotSet("version", None)]
 
 
 def clean_color(color):

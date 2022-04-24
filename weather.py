@@ -8,3 +8,8 @@ def Weather(city):
     format_add = json_data['main'] 
     print(format_add) 
     return format_add
+
+def Version(): 
+    data = requests.get('http://localhost:5005/')
+    print(data.text) 
+    return data.text.split[3]

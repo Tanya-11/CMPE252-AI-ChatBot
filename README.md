@@ -6,19 +6,19 @@ A chatbot to help the customer in checking the stcok of a shoes type, return the
 # Install dependencies
 Run
 
-"""
+```
 pip install -r requirements.txt
-"""
+```
 
 # Run the bot
 
-Train the model using  `rasa train`
+Train the model using  ```rasa train```
 
 Then, setup the sction server in another terminal window 
-`rasa run actions`
+```rasa run actions```
 
 Talk to the bot
-rasa shell
+```rasa shell```
 
 In case you're interetsed to understand how it's working under the hood, use rasa shell --debug
 

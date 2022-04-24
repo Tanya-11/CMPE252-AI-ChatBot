@@ -4,8 +4,11 @@ A chatbot to help the customer in checking the stcok of a shoes type, return the
 
 
 # Install dependencies
-Run:
-`pip install -r requirements.txt`
+Run
+
+"""
+pip install -r requirements.txt
+"""
 
 # Run the bot
 

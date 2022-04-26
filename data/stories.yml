@@ -107,7 +107,25 @@ stories:
 
 # order status
 
-- story: interactive story happy path 4
+- story: interactive story unhappy path order status 
+  steps:
+  - intent: order_status
+  - action: order_status_form
+  - active_loop: order_status_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: order_status_form
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: example@rasa.com
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_order_status
+
+- story: interactive story unhappy path order status 
   steps:
   - intent: order_status
   - action: order_status_form
@@ -115,11 +133,22 @@ stories:
   - slot_was_set:
     - requested_slot: email
   - slot_was_set:
-    - color: abcdeg.77@gmail.com
+    - email: action_order_status
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: action_order_status
+
+- story: interactive story order status  story unhappy path 2
+  steps:
+  - intent: order_status
+  - action: order_status_form
+  - active_loop: order_status_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
 
 
 # check weather

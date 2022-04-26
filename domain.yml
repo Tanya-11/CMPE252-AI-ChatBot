@@ -28,7 +28,7 @@ entities:
   - size
   - email
   - city
-  - version
+  # - version
 slots:
   color:
     type: text
@@ -62,12 +62,12 @@ slots:
     mappings:
       - entity: city
         type: from_entity
-  version:
-    type: text
-    influence_conversation: false
-    mappings:
-      - entity: version
-        type: from_entity
+  # version:
+  #   type: text
+  #   influence_conversation: false
+  #   mappings:
+  #     - entity: version
+  #       type: from_entity
 
 forms:
   product_stock_form:
@@ -101,7 +101,7 @@ responses:
   utter_product_stock_start:
     - text: I can help you find some shoes!
   utter_ask_product_stock_form_size:
-    - text: What size shoe would you like?
+    - text: What size shoe would you like (US size)?
   utter_ask_product_stock_form_color:
     - text: What color are you looking for?
   utter_no_order:
@@ -120,10 +120,10 @@ responses:
       #   title: Subscribe to product updates
       text: Hi there! I'm a demo bot from Rasa to help you with ordering shoes. How can I help you?
   utter_default:
-    - text: um, what did you just say to me?
-    - text: beep, boop, don't understand
+    - text: beep, boop, don't understand. You reach out to us at shoes_on@gmail.com?
   utter_ask_rephrase:
     - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+    - text: um, what did you just say to me?
 
   utter_no_stock:
     - text: Sorry, seems like we don't have those shoes.
@@ -164,13 +164,11 @@ responses:
     - text: Currently, we're running a buy one get one half off promotion!
 
   utter_out_of_scope:
-  - text: I'm sorry I can't handle that. You reach out to us at shoes_on@gmail.com?
+  - text: beep, boop, don't understand. You reach out to us at shoes_on@gmail.com?
 
 actions:
   - action_product_search
   - utter_product_stock_start
-  # - action_product_search
-  # - action_survey_submit
   - action_order_status
   - action_cancel_order
   - action_return
@@ -183,9 +181,9 @@ actions:
   - action_bot_challenge
   - utter_default
   - utter_iamabot
-
-# - action_give_name
-
+  - utter_ask_rephrase
+  - validate_product_stock_form
+  
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

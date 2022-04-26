@@ -151,6 +151,7 @@ nlu:
       - i want to give you my shoes color
       - [green](color)
       - [magenta] color
+      - [yel0] color
 
   - intent: give_email
     examples: |
@@ -194,7 +195,8 @@ nlu:
     examples: |
       - what's the weather like in  [York](city)?
       - tell me the weather in [New York](city)
-      - weather  [New York](city)
+      - tell me the weather in [Lucknow](city)
+      - weather in [New York](city)
       - can you tell me the weather in [New York](city)?
       - hows the weather today in [New York](city)?
       - hows the weather today at [Michigan](city)?

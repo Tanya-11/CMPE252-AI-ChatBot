@@ -15,10 +15,22 @@ from rasa_sdk.events import SlotSet , UserUtteranceReverted
 from rasa_sdk.events import FollowupAction
 from rasa_sdk.events import BotUttered
 from rasa_sdk.types import DomainDict
-from weather import Weather,Version
+from weather import Weather, Version
 import sqlite3
 
+# change this to the location of your SQLite file
 path_to_db = "actions/bot.db"
+connection = sqlite3.connect(path_to_db)
+cursor = connection.cursor()
+
+        # get email slot
+order_email = (['me@gmail.com'])
+print(order_email)
+        # retrieve row based on email
+# cursor.execute("SELECT * FROM orders WHERE (order_email) = ?", order_email)
+cursor.execute("SELECT * FROM inventory WHERE (size) = ? AND (color) = ?", [(int('9')),'blue'])
+data_row = cursor.fetchone()
+print(data_row)
 
 class ActionProductSearch(Action):
     def name(self) -> Text:
@@ -36,30 +48,25 @@ class ActionProductSearch(Action):
         cursor = connection.cursor()
 
         # get slots and save as tuple
-        shoe = [(tracker.get_slot("color")), (tracker.get_slot("size"))]
-
+        shoe = [(int(tracker.get_slot("size")),tracker.get_slot("color"))]
         # place cursor on correct row based on search criteria
-        print(shoe[0])
-        print(shoe[1])
-        cursor.execute("SELECT * FROM inventory WHERE color=? AND size=?", shoe)
-        
+        cursor.execute("SELECT * FROM inventory WHERE (size) = ? AND (color) = ?", [int(tracker.get_slot("size")),tracker.get_slot("color")])
         # retrieve sqlite row
         data_row = cursor.fetchone()
-        print(data_row)
 
         if data_row:
             # provide in stock message
-            print("exists")
-            dispatcher.utter_message(text="You're in luck! We have those in stock.")
+            dispatcher.utter_message(response="utter_in_stock")
             connection.close()
             slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
         else:
             # provide out of stock
-            dispatcher.utter_message(text="Sorry, seems like we don't have those shoes.")
+            dispatcher.utter_message(response="utter_no_stock")
             connection.close()
             slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
+
 
 class ReturnOrder(Action):
     def name(self) -> Text:
@@ -77,16 +84,16 @@ class ReturnOrder(Action):
         cursor = connection.cursor()
 
         # get email slot
-        order_email = (tracker.get_slot("email"),)
-
+        order_email = ([tracker.get_slot("email")])
+        print(order_email)
         # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE order_email=?", order_email)
+        cursor.execute("SELECT * FROM orders WHERE (order_email) = ?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
             # change status of entry
             status = [("returning"), (tracker.get_slot("email"))]
-            cursor.execute("UPDATE orders SET status=? WHERE order_email=?", status)
+            cursor.execute("UPDATE orders SET status=? WHERE (order_email) = ?", status)
             connection.commit()
             connection.close()
 
@@ -98,57 +105,7 @@ class ReturnOrder(Action):
             dispatcher.utter_message(text="Hmm, seems like we don't have an order associated with that email")
             connection.close()
             return [SlotSet("email", None)]
-            
-class ActionTime(Action):
 
-    def name(self) -> Text:
-        return "action_show_time"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text=f"{dt.datetime.now()}")
-
-        return []
-
-class CancelOrder(Action):
-    def name(self) -> Text:
-        return "action_cancel_order"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-
-        # connect to DB
-        connection = sqlite3.connect(path_to_db)
-        cursor = connection.cursor()
-
-        # get email slot
-        order_email = (tracker.get_slot("email"),)
-
-        # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE order_email=?", order_email)
-        data_row = cursor.fetchone()
-
-        if data_row:
-            # change status of entry
-            status = [("cancelled"), (tracker.get_slot("email"))]
-            cursor.execute("UPDATE orders SET status=? WHERE order_email=?", status)
-            connection.commit()
-            connection.close()
-
-            # confirm cancellation
-            dispatcher.utter_message(template="utter_order_cancel_finish")
-            return [SlotSet("email", None)]
-        else:
-            # db didn't have an entry with this email
-            dispatcher.utter_message(template="utter_no_order")
-            connection.close()
-            return [SlotSet("email", None)]
 
 class OrderStatus(Action):
     def name(self) -> Text:
@@ -166,10 +123,9 @@ class OrderStatus(Action):
         cursor = connection.cursor()
 
         # get email slot
-        order_email = (tracker.get_slot("email"))
-
+        order_email = ([tracker.get_slot("email")])
         # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE order_email=?", order_email)
+        cursor.execute("SELECT * FROM (orders) WHERE (order_email) = ? ", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
@@ -198,7 +154,7 @@ class CheckWeather(Action):
         city = (tracker.get_slot("city"))
         temp=int(Weather(city)['temp']-273)
         if not city:
-            dispatcher.utter_message(text=f"Sorry, have you given wrong city name?")
+            dispatcher.utter_message(text=f"Sorry, have you given wrong city name ?")
             return [SlotSet("city", None)]
 
         dispatcher.utter_message(text=f"Today's temperature is {temp} degree Celcius.")
@@ -219,9 +175,9 @@ class CheckRasaVersion(Action):
 
 
 def clean_color(color):
-    return "".join([c for c in color if c.isalpha()])
+    return color.isalpha()
 def clean_size(size):
-    return size.isnumeric()
+    return size.isnumeric() and int(size) < 15 and int(size) > 0
 
 class ValidateNameForm(FormValidationAction):
     def name(self) -> Text:
@@ -238,10 +194,11 @@ class ValidateNameForm(FormValidationAction):
 
         # If the name is super short, it might be wrong.
         color = clean_color(slot_value)
-        if len(color) == 0:
+        print(color)
+        if not color:
             dispatcher.utter_message(text="That must've been a typo.")
             return {"color": None}
-        return {"color": color}
+        return {"color": slot_value}
 
     def validate_size(
         self,
@@ -254,7 +211,8 @@ class ValidateNameForm(FormValidationAction):
 
         # If the name is super short, it might be wrong.
         size = clean_size(slot_value)
-        if len(size) == 0:
-            dispatcher.utter_message(text="That must've been a typo.")
+        print(size)
+        if not size:
+            dispatcher.utter_message(text="That must've been a typo. the size should be betwwen 1 and 15")
             return {"size": None}
-        return {"size": size}
+        return {"size": slot_value}

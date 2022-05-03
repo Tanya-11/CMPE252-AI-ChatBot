@@ -51,18 +51,18 @@ In case you're interetsed to understand how it's working under the hood, use `ra
   ## Sad Paths
    ![image](https://user-images.githubusercontent.com/90728105/166414663-c487d9c9-e4c0-44dc-b590-028de11f8501.png)
 
-      
-  
-  
   ## Out of scope
    This includes questions/messages, a user may but there's no user goal implemented yet. 
    For eg. Who's US president? or What is 67 + 89?
    ![image](https://user-images.githubusercontent.com/90728105/166393306-75f81132-bae2-4bc6-ba77-909d4919273b.png)
+   ![image](https://user-images.githubusercontent.com/90728105/166417284-cef9c7fa-b425-4717-8da0-37d703c2fafb.png)
+
      
    ## NLU Fallback
    This is to handle low confidence incoming messages gracefuuly, where botresponds with default message.
    For eg. 
    ![image](https://user-images.githubusercontent.com/90728105/166415931-938d3fdb-1a20-4382-91b0-ec24ad59f97b.png)
+   ![image](https://user-images.githubusercontent.com/90728105/166417181-a73d19af-b279-4251-b150-50e4e8e758c0.png)
    
    
    ## Open Issues

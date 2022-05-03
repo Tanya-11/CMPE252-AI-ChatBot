@@ -54,7 +54,7 @@ In case you're interetsed to understand how it's working under the hood, use `ra
   ## Out of scope
      This includes questions/messages, a user may but there's no user goal implemented yet. 
      For eg. Who's US president? or What is 67 + 89?
-     ![image](https://user-images.githubusercontent.com/90728105/166393306-75f81132-bae2-4bc6-ba77-909d4919273b.png)
+   ![image](https://user-images.githubusercontent.com/90728105/166393306-75f81132-bae2-4bc6-ba77-909d4919273b.png)
      
    ## NLU Fallback
       This is to handle low confidence incoming messages gracefuuly, where botresponds with default message.

@@ -42,12 +42,15 @@ In case you're interetsed to understand how it's working under the hood, use `ra
 
 # Conversation Flows
 ![image](https://user-images.githubusercontent.com/90728105/166392485-d2caf8e4-4d06-45cd-b70d-a5c02f047933.png)
+![image](https://user-images.githubusercontent.com/90728105/166414757-6621dc21-4b0f-4f02-af25-8fef5a037f6b.png)
 
   ## Happy Paths
-  
+ ![image](https://user-images.githubusercontent.com/90728105/166414710-094e3470-554d-46ce-b650-4ec5b20af443.png)
+ 
   
   ## Sad Paths
-      
+   ![image](https://user-images.githubusercontent.com/90728105/166414663-c487d9c9-e4c0-44dc-b590-028de11f8501.png)
+
       
   
   

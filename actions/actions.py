@@ -5,52 +5,53 @@
 # https://rasa.com/docs/rasa/custom-actions
 
 
-# This is a simple example for a custom action which utters "Hello World!"
-
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet , UserUtteranceReverted
+from rasa_sdk.events import SlotSet, UserUtteranceReverted
 from rasa_sdk.events import FollowupAction
 from rasa_sdk.events import BotUttered
 from rasa_sdk.types import DomainDict
-from weather import Weather, Version
+from api import Weather, Version
 import sqlite3
 
-# change this to the location of your SQLite file
+# location of your SQLite file
 path_to_db = "actions/bot.db"
-connection = sqlite3.connect(path_to_db)
-cursor = connection.cursor()
 
-        # get email slot
-order_email = (['me@gmail.com'])
-print(order_email)
-        # retrieve row based on email
-# cursor.execute("SELECT * FROM orders WHERE (order_email) = ?", order_email)
-cursor.execute("SELECT * FROM inventory WHERE (size) = ? AND (color) = ?", [(int('9')),'blue'])
-data_row = cursor.fetchone()
-print(data_row)
+
+def clean_color(color):
+    return color.isalpha()
+
+
+def clean_size(size):
+    return size.isnumeric() and int(size) < 15 and int(size) > 0
+
 
 class ActionProductSearch(Action):
     def name(self) -> Text:
         return "action_product_search"
 
-    def run(
+    async def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        slots_to_reset = ["size", "color"]
+        # size = clean_size(tracker.get_slot("size"))
+        # print(size)
+        # if not size:
+        #     dispatcher.utter_message(
+        #         text="That must've been a typo. the size should be between 1 and 15")
+        #     return [SlotSet("size", None)]
 
-        # connect to DB
+        # connecting to DB
         connection = sqlite3.connect(path_to_db)
         cursor = connection.cursor()
 
-        # get slots and save as tuple
-        shoe = [(int(tracker.get_slot("size")),tracker.get_slot("color"))]
         # place cursor on correct row based on search criteria
-        cursor.execute("SELECT * FROM inventory WHERE (size) = ? AND (color) = ?", [int(tracker.get_slot("size")),tracker.get_slot("color")])
+        cursor.execute("SELECT * FROM inventory WHERE (size) = ? AND (color) = ?",[int(tracker.get_slot("size")), tracker.get_slot("color")])
         # retrieve sqlite row
         data_row = cursor.fetchone()
 
@@ -58,13 +59,12 @@ class ActionProductSearch(Action):
             # provide in stock message
             dispatcher.utter_message(response="utter_in_stock")
             connection.close()
-            slots_to_reset = ["size", "color"]
             return [SlotSet(slot, None) for slot in slots_to_reset]
         else:
             # provide out of stock
             dispatcher.utter_message(response="utter_no_stock")
             connection.close()
-            slots_to_reset = ["size", "color"]
+
             return [SlotSet(slot, None) for slot in slots_to_reset]
 
 
@@ -87,23 +87,26 @@ class ReturnOrder(Action):
         order_email = ([tracker.get_slot("email")])
         print(order_email)
         # retrieve row based on email
-        cursor.execute("SELECT * FROM orders WHERE (order_email) = ?", order_email)
+        cursor.execute(
+            "SELECT * FROM orders WHERE (order_email) = ?", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
             # change status of entry
             status = [("returning"), (tracker.get_slot("email"))]
-            cursor.execute("UPDATE orders SET status=? WHERE (order_email) = ?", status)
+            cursor.execute(
+                "UPDATE orders SET status=? WHERE (order_email) = ?", status)
             connection.commit()
             connection.close()
 
             # confirm return
-            dispatcher.utter_message(text="Ok, I've kicked off your return. You should be receiving a return label in your inbox. Please send it in the next 14 days!")
+            dispatcher.utter_message(
+                text="Ok, I've kicked off your return. You should be receiving a return label in your inbox. Please send it in the next 14 days!")
             return [SlotSet("email", None)]
         else:
             # db didn't have an entry with this email
-            dispatcher.utter_message(text="Hmm, seems like we don't have an order associated with that email")
-            connection.close()
+            dispatcher.utter_message(
+                response="utter_no_order")
             return [SlotSet("email", None)]
 
 
@@ -111,7 +114,7 @@ class OrderStatus(Action):
     def name(self) -> Text:
         return "action_order_status"
 
-    def run(
+    async def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
@@ -125,21 +128,22 @@ class OrderStatus(Action):
         # get email slot
         order_email = ([tracker.get_slot("email")])
         # retrieve row based on email
-        cursor.execute("SELECT * FROM (orders) WHERE (order_email) = ? ", order_email)
+        cursor.execute(
+            "SELECT * FROM (orders) WHERE (order_email) = ? ", order_email)
         data_row = cursor.fetchone()
 
         if data_row:
             # convert tuple to list
             data_list = list(data_row)
-
-            # respond with order status
-            dispatcher.utter_message(text=f"Based on the latest order from {data_list[3]}, it looks like your order is currently {data_list[5]}.")
             connection.close()
+            # respond with order status
+            dispatcher.utter_message(
+                text=f"Based on the latest order for {data_list[3]} shoes, it looks like your order is currently {data_list[5]}.")           
             return [SlotSet("email", None)]
         else:
             # db didn't have an entry with this email
-            dispatcher.utter_message(text="Hmm, seems like we don't have an order associated with that email")
-            connection.close()
+            dispatcher.utter_message(
+                response="utter_no_order")
             return [SlotSet("email", None)]
 
 
@@ -148,16 +152,20 @@ class CheckWeather(Action):
     def name(self) -> Text:
         return "action_tell_weather"
 
-    def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         city = (tracker.get_slot("city"))
-        temp=int(Weather(city)['temp']-273)
+        print("weather")
+        print(city)
         if not city:
-            dispatcher.utter_message(text=f"Sorry, have you given wrong city name ?")
+            dispatcher.utter_message(
+                text=f"Sorry, have you given wrong city name ?")
             return [SlotSet("city", None)]
-
-        dispatcher.utter_message(text=f"Today's temperature is {temp} degree Celcius.")
+        temp = int(Weather(city)['temp']-273)
+        print(temp)
+        dispatcher.utter_message(
+            text=f"Today's temperature is {temp} degree Celsius.")
         return [SlotSet("city", None)]
 
 
@@ -166,18 +174,15 @@ class CheckRasaVersion(Action):
     def name(self) -> Text:
         return "action_bot_challenge"
 
-    def run(self, dispatcher: CollectingDispatcher,
-    tracker: Tracker,
-    domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        temp=Version()
-        dispatcher.utter_message(text=f"{temp}")
-        return [SlotSet("version", None)]
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        temp = Version()
+        # print(temp)
+        dispatcher.utter_message(
+            text=f"Beep, bop! I am a bot, powered by Rasa {temp}")
+        return []
 
-
-def clean_color(color):
-    return color.isalpha()
-def clean_size(size):
-    return size.isnumeric() and int(size) < 15 and int(size) > 0
 
 class ValidateNameForm(FormValidationAction):
     def name(self) -> Text:
@@ -213,6 +218,7 @@ class ValidateNameForm(FormValidationAction):
         size = clean_size(slot_value)
         print(size)
         if not size:
-            dispatcher.utter_message(text="That must've been a typo. the size should be betwwen 1 and 15")
+            dispatcher.utter_message(
+                text="That must've been a typo. the size should be betwwen 1 and 15")
             return {"size": None}
         return {"size": slot_value}

@@ -8,7 +8,6 @@ nlu:
       - hello there
       - good morning
       - good evening
-      - moin
       - hey there
       - let's go
       - hey dude
@@ -51,6 +50,7 @@ nlu:
 
   - intent: deny
     examples: |
+      - No
       - no
       - n
       - never
@@ -73,13 +73,29 @@ nlu:
       - are you a human?
       - am I talking to a bot?
       - am I talking to a human?
+      - who are you?
+
+  - intent: job_query
+    examples: |
+      - I'm looking for a job at your store
+      - I want to apply for a job at your store
+      - Are there any job vacancies at your store?
+
+  - intent: out_of_scope
+    examples: |
+      - I want to order food
+      - What is 2 + 2?
+      - Who's the US President?
+
+  - regex: size
+    examples: |
+      - \d[0-9]
 
   - intent: product_stock
     examples: |
       - do you have any [black](color) shoes in stock?
       - what about [white](color) [9](size) shoes
-      - what's your inventory
-      - are you out of (9)[size] shoes
+      - what's in your inventory
       - check inventory
       - do you have my special shoes in stock
       - Check inventory
@@ -108,21 +124,12 @@ nlu:
       - Start a return
       - Okay. I would like to return some shoes I bought
       - yeah I want to return something
-  - intent: order_return
-    examples: |
-      - start a return
-      - I don't want my shoes anymore
-      - how do I return these?
-      - return some shoes
-      - Which items are available to return?
-      - Start a return
-      - Okay. I would like to return some shoes I bought
-      - yeah I want to return something
+
   - intent: give_shoes_size
     examples: |
-      - i want a [3](size) shoes
+      - i want a size [3](size)
       - [5](size) size
-      - give me a [6](size) shoes
+      - give me a size [6](size)
       - [4](size)
       - [7](size)
       - [6](size)
@@ -133,6 +140,7 @@ nlu:
       - i want to give you my shoes
       - [8](size)
       - [9.2] size
+      - are you out of size (9)[size] shoes
 
   - intent: give_shoes_color
     examples: |
@@ -146,7 +154,7 @@ nlu:
       - [orange](color)
       - i'd prefer [salmon](color) shoes
       - gimme gimme gimme [white](color) shoes
-      - give shoes color
+      - give [blue](color) shoes
       - i want a [black](color) shoes please
       - i want to give you my shoes color
       - [green](color)
@@ -162,14 +170,15 @@ nlu:
       - [yammm@hotmail.com](email)
       - [jayjahdkaj@gmail.com](email)
       - [jayjahd.889@gmail.com](email)
+
   - intent: order_status
     examples: |
       - check status of my order
       - when are my shoes coming in
       - when will they get here
       - I'd like to check the status of my order pls
-      - check status for [yammm@hotmail.com](email)
-      - order starys for 
+      - check status orf my order, pls
+      - order status for 
       - I'd like an update on my order
       - Check status of my order
       - I haven't received my order yet, can we check that?
@@ -177,29 +186,33 @@ nlu:
       - I want to check the status of my order
       - actually can I check the status of my order
       - order status for [example@rasa.com](email)
-  - intent: give_time
+
+  - intent: check_weather_with_city
     examples: |
-      - can you tell me what time it is
-      - tell me the time
-      - got the time
-      - what time is it
+      - what's the temperature like in  [York](city)?
+      - what's the temperature in  [boston](city)?
+      - tell me the temperature in [New York](city)
+      - tell me the temperature in [Lucknow](city)
+      - temperature in [New York](city)
+      - temperature in [Dubai](city)
+      - can you tell me the temperature in [New York](city)?
+      - hows the temperature today in [New York](city)?
+      - hows the temperature today at [Michigan](city)?
+      - check the temperature in [San Jose](city)
+      - check the temperature in [Sacremento](city)
+      - I want to know the temperature in [San Jose](city)
+
   - intent: check_weather
     examples: |
       - what's the weather like?
       - tell me the weather
       - weather
+      - temperature
       - can you tell me the weather?
       - hows the weather today?
       - check weather for me
-  - intent: check_weather_with_city
-    examples: |
-      - what's the weather like in  [York](city)?
-      - tell me the weather in [New York](city)
-      - tell me the weather in [Lucknow](city)
-      - weather in [New York](city)
-      - can you tell me the weather in [New York](city)?
-      - hows the weather today in [New York](city)?
-      - hows the weather today at [Michigan](city)?
+      - check temperature for me
+      
   - intent: give_city
     examples: |
       - city is [San Jose](city)
@@ -207,19 +220,24 @@ nlu:
       - [Texas](city)
       - [Delhi](city)
       - In my city [Delhi](city)
+
   - intent: chitchat/thanks
     examples: |
       - thx
       - Awesome, thanks!
       - thanks mate
       - thank you
+
   - intent: chitchat/confirm_presence
     examples: |
       - are you there?
+      - hello are you still there
+      
   - intent: chitchat/capabilities
     examples: |
       - What else can you do?
       - what can you do?
+
   - intent: chitchat/mood_great
     examples: |
       - perfect
@@ -237,6 +255,7 @@ nlu:
       - so good
       - so perfect
       - cool beans
+
   - intent: chitchat/mood_unhappy
     examples: |
       - my day was horrible
@@ -255,6 +274,7 @@ nlu:
       - so sad
       - this is not working
       - you suck
+
   - intent: chitchat/goodbye
     examples: |
       - cu
@@ -272,23 +292,21 @@ nlu:
     examples: |
       - Can I provide a phone number instead?
       - Can anyone look up my status with my e-mail address?
+
   - intent: faq/sizing_clarification
     examples: |
       - American or european sizing?
+
   - intent: faq/payment_methods
     examples: |
-      - what kind of payment methods do you offer?
+      - what kind of payment methods do you support?
       - how do I pay
+      - payment options?
+
   - intent: faq/promotions
     examples: |
-      - what kind of deals do you have
+      - what all deals do you have
       - are you running anything for black friday
-      
-  - intent: out_of_scope
-    examples: |
-      - I want to order food
-      - What is 2 + 2?
-      - Who's the US President?
   
   - intent: stop
     examples: |
@@ -299,4 +317,5 @@ nlu:
       - Let's not check that
       - Let's not do it
       - I don't think, I want to go forward with this
+      - Let's start over
 

@@ -3,13 +3,10 @@ conn = sqlite3.connect('bot.db')
 
 c = conn.cursor()
 
-# Create table
-# c.execute('''CREATE TABLE orders
-#              (text, trans text, symbol text, qty real, price real)''')
 
 
 # Insert a row of data
-# c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+# c.execute("INSERT INTO orders VALUES ('2006-01-05',123456,'example@rasa.com','blue',9,'shipped')")
 
 # EXISTING ORDERS
 # Create table

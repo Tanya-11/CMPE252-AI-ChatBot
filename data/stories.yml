@@ -12,17 +12,9 @@ stories:
   - intent: order_shoes
   - action: utter_order_shoes
 
-- story: User interrupts the product stock form 
-  steps:
-  - active_loop: product_stock_form
-  - intent: deny
-  - action: utter_start_over
-  - action: utter_greet
-  - action: action_deactivate_loop
-  - active_loop: null
-
 # product stock
-- story: product stock story happy path
+
+- story: product stock story happy path 1
   steps:
   - intent: product_stock
   - action: utter_product_stock_start
@@ -30,11 +22,14 @@ stories:
   - active_loop: product_stock_form
   - slot_was_set:
     - requested_slot: color
+  - intent: give_shoes_color
   - slot_was_set:
     - requested_slot: size
+  - intent: give_shoes_size
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
+  - action: action_deactivate_loop
   - action: action_product_search
 
 - story: product stock story sad path 1
@@ -46,8 +41,10 @@ stories:
   - intent: stop
   - action: utter_ask_continue
   - intent: deny
-  - action: action_deactivate_loop
+  - action: utter_start_over
+  - action: utter_greet
   - active_loop: null
+  - action: action_deactivate_loop
 
 
 - story: product stock story sad path 2
@@ -62,7 +59,7 @@ stories:
   - action: product_stock_form
   - active_loop: product_stock_form
 
-# product return
+# # product return
 - story: interactive story order_return story path 1
   steps:
   - intent: order_return
@@ -74,8 +71,7 @@ stories:
   - action: order_return_form
   - slot_was_set:
     - requested_slot: email
-  - slot_was_set:
-    - color: abcdeg.77@gmail.com
+  - intent: give_email
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
@@ -89,19 +85,24 @@ stories:
   - intent: stop
   - action: utter_ask_continue
   - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
+
+
 
 - story: interactive story order_return story happy path
   steps:
   - intent: order_return
   - action: order_return_form
   - active_loop: order_return_form
-  - intent: give_email
   - slot_was_set:
     - requested_slot: email
+  - intent: give_email
   - slot_was_set:
     - requested_slot: null
+  - action: action_deactivate_loop
   - active_loop: null
   - action: action_return
 
@@ -116,26 +117,18 @@ stories:
   - action: utter_ask_continue
   - intent: affirm
   - action: order_status_form
-  - slot_was_set:
-    - requested_slot: email
-  - slot_was_set:
-    - email: example@rasa.com
-  - slot_was_set:
-    - requested_slot: null
+  - intent: give_email
   - active_loop: null
   - action: action_order_status
 
-- story: interactive story unhappy path order status 
+- story: interactive story happy path order status 
   steps:
   - intent: order_status
   - action: order_status_form
   - active_loop: order_status_form
   - slot_was_set:
     - requested_slot: email
-  - slot_was_set:
-    - email: action_order_status
-  - slot_was_set:
-    - requested_slot: null
+  - intent: give_email
   - active_loop: null
   - action: action_order_status
 
@@ -147,31 +140,32 @@ stories:
   - intent: stop
   - action: utter_ask_continue
   - intent: deny
+  - action: utter_start_over
+  - action: utter_greet
   - action: action_deactivate_loop
   - active_loop: null
 
 
 # check weather
-- story: check weather story 1
-  steps:  
-  - intent: check_weather_with_city
-  - slot_was_set:
-    - requested_slot: city
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_tell_weather
-  - active_loop: null
+
 
 - story: check weather story 2
   steps:  
   - intent: check_weather
   - action: utter_city
   - intent: give_city
-  - slot_was_set:
-    - requested_slot: city
-  - slot_was_set:
-    - city: Malaysia
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_tell_weather
+  - action: action_deactivate_loop
   - active_loop: null
+  - action: action_tell_weather
+
+
+# - story: story sad path out-of-scope
+#   steps:
+#   - intent: out_of_scope
+#   - action: utter_out_of_scope
+#   - intent: stop
+#   - action: utter_ask_continue
+#   - intent: deny
+#   - action: utter_start_over
+#   - action: utter_greet
+#   - active_loop: null

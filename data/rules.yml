@@ -9,7 +9,6 @@ rules:
   steps:
   - intent: bot_challenge
   - action: action_bot_challenge
-  - action: utter_iamabot
 
 # product_stock form
 - rule: Activate product_stock form happy path
@@ -34,6 +33,7 @@ rules:
   steps:
   - action: product_stock_form
   - active_loop: null
+  - action: action_deactivate_loop
   - slot_was_set:
     - requested_slot: null
   - action: action_product_search
@@ -54,16 +54,6 @@ rules:
   - action: utter_chitchat
   - action: order_cancel_form
   - active_loop: order_cancel_form
-
-- rule: Submit cancel form
-  condition:
-  - active_loop: order_cancel_form
-  steps:
-  - action: order_cancel_form
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: action_cancel_order
 
   # order_return form
 
@@ -88,8 +78,6 @@ rules:
   steps:
   - action: order_return_form
   - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
   - action: action_return
 
 # order_status form
@@ -115,16 +103,14 @@ rules:
   steps:
   - action: order_status_form
   - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
   - action: action_order_status
 
-# fallback
-
-- rule: Implementation of the Two-Stage-Fallback
+  # job_query
+- rule: respond to job_query
   steps:
-  - intent: nlu_fallback
-  - action: utter_ask_rephrase
+  - intent: job_query
+  - action: utter_job_query
+
 
 # out of scope
 
@@ -152,4 +138,10 @@ rules:
   steps:
   - intent: chitchat
   - action: utter_chitchat
+
+# NLU fallback
+- rule: Single stage fallback | Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_ask_rephrase
 

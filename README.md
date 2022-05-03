@@ -1,4 +1,4 @@
-# CMPE252-AI-ChatBot : Online Shoes Bot
+# CMPE252-AI-ChatBot : Retail Chat Bot(Shoes) using Rasa 3.1.0
 
 A chatbot to help the customer in checking the stcok of a shoes type, return the order or check the status.
 
@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 # Run the bot
 
-Train the model using 
+First, Train the model using 
 ```
 rasa train
 ```
@@ -24,7 +24,7 @@ rasa run actions
 
 Talk to the bot
 ```
-rasa shell
+rasa shell --enable-api --cors “*” --debug
 ```
 
 In case you're interetsed to understand how it's working under the hood, use `rasa shell --debug`
@@ -62,6 +62,13 @@ In case you're interetsed to understand how it's working under the hood, use `ra
    ## NLU Fallback
    This is to handle low confidence incoming messages gracefuuly, where botresponds with default message.
    For eg. 
+   ![image](https://user-images.githubusercontent.com/90728105/166415931-938d3fdb-1a20-4382-91b0-ec24ad59f97b.png)
+   
+   
+   ## Open Issues
+   - Most extensive testing of converstaion flows may need additional converstion rules/stories to allow chat bot follow conversation like human assistant.
+   - As it's retail bot, more products can be added in DB and hence more slot values or entities may be needed
+
 
             
   

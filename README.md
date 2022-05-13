@@ -66,8 +66,7 @@ In case you're interetsed to understand how it's working under the hood, use `ra
    
    
    ## Open Issues
-   - Most extensive testing of converstaion flows may need additional converstion rules/stories to allow chat bot follow conversation like human assistant.
-   - As it's retail bot, more products can be added in DB and hence more slot values or entities may be needed
+   - Time out issue after deploying on Slack
 
 
             

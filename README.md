@@ -1,6 +1,6 @@
 # CMPE252-AI-ChatBot : Retail Chat Bot(Shoes) using Rasa 3.1.0
 
-A chatbot to help the customer in checking the stcok of a shoes type, return the order or check the status.
+A chatbot to help the customer in checking the stock of a shoes type, return the order or check the status. Being the regular customer of e-commerce websites, I decided to make Retail chatbot, to understand possible conversation flows between customer and chatbot. Such that the conversation might not always go the expected ways and hence the conversation flows are divided into happy and unhappy paths. For the scope of this project, this project only has one type of product i.e. shoes due to simplicity in number of specifications.
 
 
 # Install dependencies
@@ -65,9 +65,13 @@ In case you're interetsed to understand how it's working under the hood, use `ra
    ![image](https://user-images.githubusercontent.com/90728105/166417181-a73d19af-b279-4251-b150-50e4e8e758c0.png)
    
    
-   ## Open Issues
-   - Most extensive testing of converstaion flows may need additional converstion rules/stories to allow chat bot follow conversation like human assistant.
-   - As it's retail bot, more products can be added in DB and hence more slot values or entities may be needed
+   ## Open Issues/ To Do
+   - Time out issue after deploying on Slack
+   - Most extensive testing could allow more complex conversation flows especially upon adding of more products in DB.
+   
+   ## Lessons Learned
+   - Most interesting project I worked on this semester
+   - Learned how to use RASA tool and build a chatbot
 
 
             

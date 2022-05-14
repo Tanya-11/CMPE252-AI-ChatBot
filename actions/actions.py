@@ -25,7 +25,7 @@ def clean_color(color):
 
 
 def clean_size(size):
-    return size.isnumeric() and int(size) < 15 and int(size) > 0
+    return (isinstance(size, float) or isinstance(size, int)) and int(size) < 15 and int(size) > 0
 
 
 class ActionProductSearch(Action):
